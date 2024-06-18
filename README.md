@@ -52,20 +52,21 @@ conda activate busSafe
 streamlit run Bus_Safety.py
 
 # direto do GitHub
-streamlit run https://raw.githubusercontent.com/streamlit/demo-uber-nyc-pickups/master/streamlit_app.py
+streamlit run https://github.com/rbalbinotti/Analise_Risco_Transp_Publico/blob/main/Bus_Safety.py
 ```
+
 ---
 ## Objetivo
 #### Trabalho é analisar os dados e construir gráficos que respondam a essas 10 perguntas abaixo:
 
 > 1. Qual a quantidade de incidentes por gênero?
 > 2. Qual faixa etária esteve mais envolvida nos incidentes?  
-> 3. Qual o percentual de incidentes por tipo de evento (Incident Event Type)?
+> 3. Qual o percentual de incidentes por tipo de evento?
 > 4. Como foi a evolução de incidentes por mês ao longo do tempo?
-> 5. Quando o incidente foi “Collision Incident” em qual mês houve o maior número de incidentes envolvendo pessoas do sexo feminino?
-> 6. Qual foi a média de incidentes por mês envolvendo crianças (Child)?
-> 7. Considerando a descrição de incidente como “Injuries treated on scene” (coluna Injury Result Description), qual o total de incidentes de pessoas do sexo masculino e sexo feminino?
-> 8. No ano de 2017 em qual mês houve mais incidentes com idosos (Elderly)?
+> 5. Quando o incidente foi colisão em qual mês houve o maior número de incidentes envolvendo pessoas do sexo feminino?
+> 6. Qual foi a média de incidentes por mês envolvendo crianças?
+> 7. Considerando a descrição de incidente como tratamento no local, qual o total de incidentes de pessoas do sexo masculino e sexo feminino?
+> 8. No ano de 2017 em qual mês houve mais incidentes com idosos?
 > 9. Considerando o Operador qual a distribuição de incidentes ao longo do tempo?
 > 10. Qual o tipo de incidente mais comum com ciclistas?
 

@@ -32,7 +32,8 @@ assin = '''**Roberto R Balbinotti**
 # Sidebar
 st.sidebar.write('Criado por:')
 st.sidebar.markdown(assin, unsafe_allow_html=True)
-#st.sidebar.markdown('[![in](./static/linkedin.png)]()')
+st.sidebar.markdown('[![in](./static/linkedin.png)](https://www.linkedin.com/in/roberto-balbinotti/)')
+st.sidebar.markdown('[![GitHub](./static/github.png)](https://github.com/rbalbinotti/)')
 
 txt_side = '''
 Projeto de Conclusão do Curso 3.0 - Big Data Real-Time Analytics com Python e Spark.  

@@ -4,7 +4,6 @@ import func
 import pandas as pd
 import altair as alt
 
-from datetime import date as dt
 from pandas.api.types import CategoricalDtype
 
 # configuração da página e dos menus (são os 3 pontos à direita da página)
@@ -29,7 +28,6 @@ assin = '''**Roberto R Balbinotti**
 # Sidebar
 st.sidebar.write('Criado por:')
 st.sidebar.markdown(assin, unsafe_allow_html=True)
-#st.sidebar.markdown('[![in](./static/linkedin.png)]()')
 
 txt_side = '''
 Projeto de Conclusão do Curso 3.0 - Big Data Real-Time Analytics com Python e Spark.  
@@ -38,23 +36,18 @@ Projeto de Conclusão do Curso 3.0 - Big Data Real-Time Analytics com Python e S
 
 st.sidebar.markdown(txt_side, unsafe_allow_html=True)
 st.sidebar.image('./images/dsa.png')
-#st.image(image, caption=None, width=None, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
-###############################################################
-# imagem com link usando static - verse funciona quando feito deploy
-# st.sidebar.markdown("[![in](Analise_Risco_Trans_Publico/static/linkedin.png)](https://www.linkedin.com/in/roberto-balbinotti/)")
 
-##############################################################
 
 # leitura dos dados
-@st.cache_data # quando ler pela segunda vez, utiliza o que está em cache
+@st.cache_data  # quando ler pela segunda vez, utiliza o que está em cache
 def load_data(url):
-    '''Lê os dados'''
-    df = pd.read_excel(url)
+    """Lê os dados"""
+    data = pd.read_excel(url)
     # Extrai da variável
-    month = df['Date Of Incident'].dt.strftime('%b')
+    month = data['Date Of Incident'].dt.strftime('%b')
 
     # Insere o mês extraido na segunda coluna do dataframe
-    df.insert(1, 'Month', month)
+    data.insert(1, 'Month', month)
 
     # Ordem dos meses
     month_order = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -63,15 +56,14 @@ def load_data(url):
     cat_month_order = CategoricalDtype(categories=month_order, ordered=True)
 
     # Cria categoriae ordenada
-    df['Month'] = df.Month.astype(cat_month_order)
+    data['Month'] = data.Month.astype(cat_month_order)
 
     # Cria categoria Year
-    df['Year'] = df['Year'].astype('category')
-    return df
+    data['Year'] = data['Year'].astype('category')
+    return data
+
 
 df = load_data('https://query.data.world/s/vcpijynjkuc3ccycxh62juwmnitj6t?dws=00000')
-
-################################################################
 
 st.header('Análise :bar_chart:', divider='rainbow')
 st.write('')
@@ -100,7 +92,8 @@ with col1:
             anchor='middle',
             color='gray'
         )
-        .configure_axisX(labelAngle=0).interactive()
+        .configure_axisX(labelAngle=0)
+        .interactive()
         , use_container_width=True, theme='streamlit')
 
 with col3:
@@ -131,13 +124,15 @@ with col5:
     st.subheader('3- Qual o percentual de incidentes por tipo de evento?')
 
 with col5:
-    df_getype = pd.DataFrame(df.groupby(['Incident Event Type'], observed=True, as_index=False)['Year'].count()).sort_values(by='Year', ascending=False)
+    df_getype = pd.DataFrame(
+        df.groupby(['Incident Event Type'], observed=True, as_index=False)['Year'].count()).sort_values(by='Year',
+                                                                                                        ascending=False)
     df_getype['Percent'] = (df_getype['Year'] / df.shape[0]) * 100
     df_getype['Percent'] = df_getype.Percent.apply(func.formata_numero)
 
     chart_3 = (alt.Chart(df_getype,
                          title=alt.Title('Percent for incident event type',
-                         anchor='middle', color='gray', fontSize=20))
+                                         anchor='middle', color='gray', fontSize=20))
                .mark_bar()
                .properties(width='container', height=480)
                .encode(x=alt.X('Year', title='Count', sort=None), y=alt.Y('Incident Event Type', sort=None))
@@ -152,7 +147,6 @@ with col5:
     combined_chart = chart_3 + annotation_layer
     # Display chart
     st.altair_chart(combined_chart, use_container_width=True, theme='streamlit')
-
 
 st.divider()
 
@@ -199,7 +193,7 @@ with col1:
         .add_selection(hover)
     )
 
-    # Conect all
+    # Connect all
     data_layer = ((lines + points + tooltips_line)
                   .configure_title(fontSize=20, anchor='middle', color='gray')
                   .configure_axisX(labelAngle=0)).interactive()

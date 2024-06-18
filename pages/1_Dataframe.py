@@ -17,15 +17,12 @@ st.set_page_config(
     }
 )
 
-###############################################################################################
-
-assin = '''**Roberto R Balbinotti**
+assign = '''**Roberto R Balbinotti**
 [Linkedin](https://www.linkedin.com/in/roberto-balbinotti/) - [GitHub](https://github.com/rbalbinotti/)'''
 
 # Sidebar
 st.sidebar.write('Criado por:')
-st.sidebar.markdown(assin, unsafe_allow_html=True)
-#st.sidebar.markdown('[![in](./static/linkedin.png)]()')
+st.sidebar.markdown(assign, unsafe_allow_html=True)
 
 txt_side = '''
 Projeto de Conclusão do Curso 3.0 - Big Data Real-Time Analytics com Python e Spark.  
@@ -34,23 +31,18 @@ Projeto de Conclusão do Curso 3.0 - Big Data Real-Time Analytics com Python e S
 
 st.sidebar.markdown(txt_side, unsafe_allow_html=True)
 st.sidebar.image('./images/dsa.png')
-#st.image(image, caption=None, width=None, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
-###############################################################
-# imagem com link usando static - verse funciona quando feito deploy
-# st.sidebar.markdown("[![in](Analise_Risco_Trans_Publico/static/linkedin.png)](https://www.linkedin.com/in/roberto-balbinotti/)")
 
-##############################################################
 
 # leitura dos dados
-@st.cache_data # quando ler pela segunda vez, utiliza o que está em cache
+@st.cache_data  # quando ler pela segunda vez, utiliza o que está em cache
 def load_data(url):
-    '''Lê os dados'''
-    df = pd.read_excel(url)
+    """Lê os dados"""
+    data = pd.read_excel(url)
     # Extrai da variável
-    month = df['Date Of Incident'].dt.strftime('%b')
+    month = data['Date Of Incident'].dt.strftime('%b')
 
     # Insere o mês extraido na segunda coluna do dataframe
-    df.insert(1, 'Month', month)
+    data.insert(1, 'Month', month)
 
     # Ordem dos meses
     month_order = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -59,15 +51,14 @@ def load_data(url):
     cat_month_order = CategoricalDtype(categories=month_order, ordered=True)
 
     # Cria categoriae ordenada
-    df['Month'] = df.Month.astype(cat_month_order)
+    data['Month'] = data.Month.astype(cat_month_order)
 
     # Cria categoria Year
-    df['Year'] = df['Year'].astype('category')
-    return df
+    data['Year'] = data['Year'].astype('category')
+    return data
+
 
 df = load_data('https://query.data.world/s/vcpijynjkuc3ccycxh62juwmnitj6t?dws=00000')
-
-################################################################
 
 st.header('Conhecendo o Dataframe :card_file_box:', divider='rainbow')
 
@@ -78,7 +69,6 @@ text = '''
     Fonte site [Data.world](https://data.world/)
     '''
 
-col1, col2 = st.columns([3,1])
-# col2.caption(text, )
+col1, col2 = st.columns([3, 1])
 
 col1.caption('Dados acidentes envolvendo transporte ônibus - Londres, UK.  Fonte: [Data.world](https://data.world/)')

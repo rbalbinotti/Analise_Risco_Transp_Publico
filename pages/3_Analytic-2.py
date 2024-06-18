@@ -1,10 +1,8 @@
 # Libraries
 import streamlit as st
-import func
 import pandas as pd
 import altair as alt
 
-from datetime import date as dt
 from pandas.api.types import CategoricalDtype
 
 # configuração da página e dos menus (são os 3 pontos à direita da página)
@@ -29,7 +27,6 @@ assin = '''**Roberto R Balbinotti**
 # Sidebar
 st.sidebar.write('Criado por:')
 st.sidebar.markdown(assin, unsafe_allow_html=True)
-#st.sidebar.markdown('[![in](./static/linkedin.png)]()')
 
 txt_side = '''
 Projeto de Conclusão do Curso 3.0 - Big Data Real-Time Analytics com Python e Spark.  
@@ -38,23 +35,18 @@ Projeto de Conclusão do Curso 3.0 - Big Data Real-Time Analytics com Python e S
 
 st.sidebar.markdown(txt_side, unsafe_allow_html=True)
 st.sidebar.image('./images/dsa.png')
-#st.image(image, caption=None, width=None, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
-###############################################################
-# imagem com link usando static - verse funciona quando feito deploy
-# st.sidebar.markdown("[![in](Analise_Risco_Trans_Publico/static/linkedin.png)](https://www.linkedin.com/in/roberto-balbinotti/)")
 
-##############################################################
 
 # leitura dos dados
-@st.cache_data # quando ler pela segunda vez, utiliza o que está em cache
+@st.cache_data  # quando ler pela segunda vez, utiliza o que está em cache
 def load_data(url):
-    '''Lê os dados'''
-    df = pd.read_excel(url)
+    """Lê os dados"""
+    data = pd.read_excel(url)
     # Extrai da variável
-    month = df['Date Of Incident'].dt.strftime('%b')
+    month = data['Date Of Incident'].dt.strftime('%b')
 
     # Insere o mês extraido na segunda coluna do dataframe
-    df.insert(1, 'Month', month)
+    data.insert(1, 'Month', month)
 
     # Ordem dos meses
     month_order = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -63,11 +55,12 @@ def load_data(url):
     cat_month_order = CategoricalDtype(categories=month_order, ordered=True)
 
     # Cria categoriae ordenada
-    df['Month'] = df.Month.astype(cat_month_order)
+    data['Month'] = data.Month.astype(cat_month_order)
 
     # Cria categoria Year
-    df['Year'] = df['Year'].astype('category')
-    return df
+    data['Year'] = data['Year'].astype('category')
+    return data
+
 
 df = load_data('https://query.data.world/s/vcpijynjkuc3ccycxh62juwmnitj6t?dws=00000')
 
@@ -83,8 +76,10 @@ df_type = df[df['Incident Event Type'] == 'Collision Incident']
 col1, col2, col3 = st.columns([2, 0.5, 4])
 
 with col1:
-    st.subheader('5- Quando o incidente foi “Collision Incident” em qual mês houve o maior número de incidentes envolvendo pessoas do sexo feminino?')
-    st.write('O mês que acumula o maior nível de incidentes envolvendo gênero feminino e colisão foi **setembro** com **158** eventos.')
+    st.subheader('5- Quando o incidente foi “Collision Incident” em qual mês houve o maior número de incidentes '
+                 'envolvendo pessoas do sexo feminino?')
+    st.write('O mês que acumula o maior nível de incidentes envolvendo gênero feminino e colisão foi **setembro** com '
+             '**158** eventos.')
     options = st.multiselect('Select Gender', sex_list, default=sex_list)
 
 
@@ -131,9 +126,8 @@ with col1:
     df_child_mean = df_child[df_child['Victims Age'] == 'Child']
     # df_child_mean
 
-    chart_6 = (alt.Chart(df_child_mean,
-                         title=alt.Title('Mean child victims for month - period(2015-18)',
-                         anchor='middle', color='gray', fontSize=20))
+    chart_6 = (alt.Chart(df_child_mean, title=alt.Title('Mean child victims for month - period(2015-18)',
+                                                        anchor='middle', color='gray', fontSize=20))
                .mark_bar()
                .properties(width='container', height=480)
                .encode(x=alt.X('Month', axis=alt.Axis(labelAngle=0)), y=alt.Y('Mean', title=''))
@@ -199,8 +193,8 @@ with col1:
     elderly = elderly[(elderly['Victims Age'] == 'Elderly') & (elderly['Year'] == 2017)]
 
     chart_8 = (alt.Chart(elderly,
-                         title=alt.Title('Incident with elderly in 2017',
-                         anchor='middle', color='gray', fontSize=20))
+                         title=alt.Title('Incident with elderly in 2017', anchor='middle',
+                                         color='gray', fontSize=20))
                .mark_area(line=True, point=True, opacity=0.1)
                .properties(width='container', height=480)
                .encode(x=alt.X('Month', axis=alt.Axis(labelAngle=0)), y=alt.Y('Route:Q', title='Count'))

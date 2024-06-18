@@ -7,9 +7,10 @@
 ## Descrição Projeto
 
 - Quais incidentes de trânsito ocorrem com mais frequência?
-- Qual a faixa etária que mais se envolve em incidentes de trânsito? Qual o evento mais comum nos incidentes?
+- Qual a faixa etária que mais se envolve em incidentes de trânsito? 
+- Qual o evento mais comum nos incidentes?
 - Passageiros ou pedestres são as maiores vítimas dos incidentes?
-st.get_option(key)
+  
 Essas e outras perguntas devem ser respondidas através da análise de dados reais disponíveis publicamente. Este projeto não requer Machine Learning e seu trabalho é aplicar suas habilidades de análise e responder diversas perguntas de negócio através de gráficos e storytelling.
 
 Para a construção desse projeto, recomendamos a utilização da Linguagem Python e Linguagem SQL e o dataset disponível para download no link: [data.world](https://data.world/makeovermonday/2018w51)

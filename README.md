@@ -70,7 +70,7 @@ streamlit run https://raw.githubusercontent.com/streamlit/demo-uber-nyc-pickups/
 > 10. Qual o tipo de incidente mais comum com ciclistas?
 
 ## Vizualização projeto
-- [Projeto em Streamlit](link)
+- [Projeto em Streamlit](https://londonbusanalysis.streamlit.app/)
 
 # Bibliografia e Créditos
 
